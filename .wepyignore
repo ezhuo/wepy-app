@@ -1,0 +1,6 @@
+node_modules
+dist
+.DB_store
+*.wpy___jb_tmp___
+/theme/styles/
+.DS_Store

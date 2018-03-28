@@ -1,0 +1,149 @@
+<template>
+  <view class="page-user">
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd userinfo clearfix">
+            <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
+            <view class="userinfo-info">
+              <view class="userinfo-nickname">{{ nickName }}</view>
+              <view class="userinfo-status">{{identity.type}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/user/subscribe" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">我的订阅</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text>还可借</text>
+            <text class="color-green">{{packages.times}}</text>
+            <text>次</text>
+          </view>
+        </navigator>
+        <navigator url="/pages/user/borrow" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">我的借阅</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">{{packages.status}}</text>
+          </view>
+        </navigator>
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">收藏图书</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">{{identity.collection || '0'}}</text>
+          </view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import parentPage from '../../core/parent/page.js';
+// import { service } from '../config.js'
+
+export default class pageUser extends parentPage {
+  config = {
+    navigationBarTitleText: '我的',
+    enablePullDownRefresh: false
+  };
+  data = {
+    userInfo: {
+      nickName: '加载中...',
+      // 头像占位图
+      avatarUrl: '../images/icon/icon-avatar@2x.png',
+
+      packages: {
+        times: 0,
+        status: '借阅状态'
+      },
+      identity: {
+        type: '订阅状态',
+        collection: 0
+      }
+    }
+  };
+
+  computed = {
+    packages() {
+      return this.helpers.getObject(this.helpers.getObject(this.userInfo).packages);
+    },
+    identity() {
+      return this.helpers.getObject(this.helpers.getObject(this.userInfo).identity);
+    },
+    nickName() {
+      const info = this.helpers.getObject(this.userInfo);
+      // 名称或头像不为空的，才认为是授权用户
+      return info.nickName || info.avatarUrl ? info.nickName : '未授权用户';
+    }
+  };
+
+  onShow() {
+    // 初始化页面数据
+    this.$getUserInfo(info => {
+      const uinfo = this.helpers.getObject(info);
+      const userInfo = this.helpers.getObject(this.userInfo);
+      this.userInfo = Object.assign({}, userInfo, uinfo);
+      this.initPageData();
+    });
+  }
+
+  onPullDownRefresh() {
+    this.initPageData();
+  }
+
+  // 初始化页面数据
+  initPageData() {
+    // 根据业务接口处理:获取最新个人信息并更新
+    // this.$get({url: service.user}, {
+    //   success: ({code, data}) => {},
+    //   fail: ({code, data}) => {}
+    // })
+  }
+
+  methods = {};
+
+  components = {};
+}
+</script>
+
+<style lang="less">
+@import '../../theme/styles/custom/fn.less';
+
+.page-user {
+  @userinfoHeight: 100rpx;
+  @userinfoSpace: 8rpx;
+
+  .userinfo {
+    padding: 20rpx 0;
+  }
+
+  .userinfo-avatar {
+    float: left;
+    width: @userinfoHeight;
+    height: @userinfoHeight;
+    border-radius: 50%;
+  }
+
+  // space + space
+  .userinfo-info {
+    float: left;
+    line-height: 1;
+    padding: @userinfoSpace 0;
+    margin-left: 3 * @userinfoSpace;
+  }
+
+  // text + space + text
+  .userinfo-nickname {
+    color: @uiColorGreen;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (16 / 30);
+    margin-bottom: 2 * @userinfoSpace;
+  }
+  .userinfo-status {
+    color: #999;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (14 / 30);
+  }
+}
+</style>
