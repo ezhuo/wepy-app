@@ -96,11 +96,13 @@ export default class userBorrow extends parentPage {
 
     // =============== 随机示例 ===============
     this.$httpPost(service.list)
-      .then(({ code, data }) => {
+      .then(({ data }) => {
+        data = data.data;
         this.getBorrow(this.helpers.getArray(data));
       })
-      .catch(({ code, data }) => {
-        console.log('[updateBookList fail]', code, data);
+      .catch(({ data }) => {
+        data = data.data;
+        console.log('[updateBookList fail]', data);
       });
   }
 

@@ -75,6 +75,7 @@ export default class userMixin extends wepy.mixin {
   _wxUserInfo(callback) {
     wepy.getUserInfo({
       success: (res) => {
+        debugger;
         console.log('wepy.getUserInfo.success:', res)
         // 缓存用户信息
         const user = this.$parent.globalDataSet('user', res.userInfo)

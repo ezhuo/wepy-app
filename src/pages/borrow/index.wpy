@@ -69,7 +69,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-
 // import { service } from '../config.js'
 
 export default class pageBorrow extends parentPage {
@@ -77,6 +76,7 @@ export default class pageBorrow extends parentPage {
     navigationBarTitleText: '书架',
     enablePullDownRefresh: false
   };
+
   data = {
     loaded: false,
     loading: false,
@@ -112,9 +112,10 @@ export default class pageBorrow extends parentPage {
   initPageData() {
     // 异步获取数据
     this.loading = true;
-    this.$getUserInfo(data => {
+    this.wxService.userLogin(this).then(userBuild.bind(this));
+    function userBuild({ userInfo }) {
+      let data = userInfo;
       this.loaded = true;
-
       // 初始化收件人信息
       const { identity, packages, nickName } = data;
       this.phone = this.helpers.getString(
@@ -138,7 +139,7 @@ export default class pageBorrow extends parentPage {
       // 更新借阅列表
       this.updateBorrowList();
       this.loading = false;
-    });
+    }
   }
 
   methods = {
@@ -217,7 +218,7 @@ export default class pageBorrow extends parentPage {
         });
     },
     remove(item) {
-      this.removeCart(item, () => {
+      this.removeCart.call(this, item, () => {
         this.updateBorrowList();
       });
     },
@@ -238,7 +239,7 @@ export default class pageBorrow extends parentPage {
     if (!this.helpers.getNumber(this.borrowCount)) return;
 
     // 获取购物车信息
-    this.getCartList(list => {
+    this.getCartList.call(this, list => {
       const realist = this.helpers.getArray(list, []);
       const lenList = [];
       for (var i = 0; i < +this.borrowCount; i++) {

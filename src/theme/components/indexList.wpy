@@ -128,7 +128,8 @@ export default class indexlist extends parentComponent {
         book_ids: [book.id],
         type: newType
       })
-        .then(({ code, data }) => {
+        .then(({ data }) => {
+          data = data.data;
           // 重置本书收藏状态
           if (this.helpers.isObject(this.list[index])) {
             this.list[index].collected = newType;
@@ -139,7 +140,8 @@ export default class indexlist extends parentComponent {
             duration: 1000
           });
         })
-        .catch(({ code, data }) => {
+        .catch(({ data }) => {
+          data = data.data;
           // =============================== 调试代码 ===============================
           // this.book.collected = newType
           // =============================== 调试代码 ===============================

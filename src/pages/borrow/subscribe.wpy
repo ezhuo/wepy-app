@@ -82,7 +82,10 @@ export default class borrowSubscribe extends parentPage {
       const arr = this.helpers.getArray(
         (this.list || []).filter((item, index) => {
           item.TEMPINDEX = index;
-          return this.helpers.getString(this.value) === this.helpers.getString(item.id);
+          return (
+            this.helpers.getString(this.value) ===
+            this.helpers.getString(item.id)
+          );
         })
       );
       const index = arr[0] && arr[0].TEMPINDEX;
@@ -114,7 +117,7 @@ export default class borrowSubscribe extends parentPage {
 
   // 初始化页面数据
   initPageData() {
-    console.log(this);
+    const self = this;
     // 根据业务接口处理数据:请求套餐详情
     // this.$get({url: service.packages}, {
     //   success: ({code, data}) => {},
@@ -124,9 +127,18 @@ export default class borrowSubscribe extends parentPage {
     // ===== 以下随机示例 =====
     setTimeout(() => {
       this.list = this.helpers.getArray(packages);
-      this.$getUserInfo(user => {
-        this.phone = this.helpers.getString(this.helpers.getObject(user.identity).mobile);
-      });
+      self.wxService.userLogin(self).then(userBuild.bind(self));
+      // this.$getUserInfo(user => {
+      //   this.phone = this.helpers.getString(
+      //     this.helpers.getObject(user.identity).mobile
+      //   );
+      // });
+      function userBuild(result) {
+        const user = result.userInfo;
+        this.phone = this.helpers.getString(
+          this.helpers.getObject(user.identity).mobile
+        );
+      }
     }, 200);
   }
 
@@ -151,10 +163,14 @@ export default class borrowSubscribe extends parentPage {
       // 开防抖
       this.loading = true;
       // 调用登录
-      this.$login(({ code }) => {
+      this.wxService.userLogin(this).then(userBuild.bind(this));
+      function userBuild(result) {
         // 获取微信登录code，再提交套餐订单
+        let code = result.loginData.code;
         this.requestPayment(Object.assign({}, data, { weixin_code: code }));
-      }, 'noAutoLogin');
+      }
+      // this.$login(({ code }) => {
+      // }, 'noAutoLogin');
     },
     typing(type, e) {
       if (this.helpers.isDefined(this[type])) {

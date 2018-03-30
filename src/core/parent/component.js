@@ -1,7 +1,8 @@
 import wepy from 'wepy';
 
-import index from '../mixins/index';
+import IndexMixin from '../mixins/index';
+import CaseMixin from '../mixins/case';
 
 export default class parentComponent extends wepy.component {
-  mixins = [index];
+  mixins = [IndexMixin, CaseMixin];
 }

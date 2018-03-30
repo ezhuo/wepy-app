@@ -32,9 +32,13 @@ export default class cartMixin extends wepy.mixin {
     const list = this.getCartList()
 
     // 根据用户套餐信息处理购物车数量问题
-    this.$getUserInfo(({
-      packages
-    }) => {
+    // this.$getUserInfo(({
+    //   packages
+    // }) => {})
+    this.wxService.userLogin(this).then(userBuild.bind(this));
+
+    function userBuild(result) {
+      let packages = result.packages;
       if (this.helpers.isDefined(packages)) {
         // 解构: 可借数量/次数
         const {
@@ -76,7 +80,8 @@ export default class cartMixin extends wepy.mixin {
           message: '您暂无可用套餐,请先购买套餐'
         })
       }
-    })
+
+    }
   }
 
   realAddCart(item) {

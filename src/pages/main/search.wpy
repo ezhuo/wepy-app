@@ -78,7 +78,8 @@ export default class mainSearch extends parentPage {
   initPageData() {
     // 获取tag列表
     this.$httpGet(service.tags)
-      .then(({ code, data }) => {
+      .then(({ data }) => {
+        data = data.data;
         // data = [{
         //   code: 'demo',
         //   name: 'title',
@@ -142,12 +143,13 @@ export default class mainSearch extends parentPage {
         }
         // 整理条件对应的文案信息
         if (this[items]) {
-          const titleArr = this.helpers.getArray(this[items])
+          const titleArr = this.helpers
+            .getArray(this[items])
             .filter(item => {
               return (
-                this.helpers.getArray(params[`${this[key]}`]).indexOf(
-                  this.helpers.getString(item.value)
-                ) > -1
+                this.helpers
+                  .getArray(params[`${this[key]}`])
+                  .indexOf(this.helpers.getString(item.value)) > -1
               );
             })
             .map(item => {

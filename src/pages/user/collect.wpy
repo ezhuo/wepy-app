@@ -78,7 +78,8 @@ export default class userCollect extends parentPage {
         this.loading = false;
       }
     )
-      .then(({ code, data }) => {
+      .then(({ data }) => {
+        data = data.data;
         // 示例规则：最多20本
         if (this.list.length >= 20) {
           this.noMoreList = true;
@@ -99,8 +100,8 @@ export default class userCollect extends parentPage {
         // 成功了就增加一页
         this.page += 1;
       })
-      .catch(({ code, data }) => {
-        console.log('[updateBookList fail]', code, data);
+      .catch(({ data }) => {
+        console.log('[updateBookList fail]', data.data);
       });
   }
 

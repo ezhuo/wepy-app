@@ -1,10 +1,9 @@
 <script>
 import wepy from 'wepy';
 import 'wepy-async-function';
-import Promise from 'promise-polyfill';
-import * as helpers from './core/helpers.js';
 import { InterceptRequest } from './core/data/intercept.js';
-import * as wxApi from './core/data/wxApi.js';
+import * as wxService from './core/wxService/wxService.js';
+import * as helpers from './core/helpers.js';
 
 // import { service } from './config.js'
 
@@ -75,13 +74,17 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    hasLogin: false,
+    loginData: null,
+    userInfo: null,
     user: null,
+    ajaxList: {},
     cart: null
   };
 
   onLaunch() {
-    // wxApi.getUserInfo();
+    console.log('onLaunch');
+    // 判断是否登录
+    wxService.userLogin(this);
   }
 
   onShow(options) {}

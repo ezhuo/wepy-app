@@ -77,7 +77,11 @@ export default class userSubscribe extends parentPage {
     // })
 
     // =============== 随机示例 ===============
-    this.$getUserInfo(({ packages }) => {
+    this.wxService.userLogin(this).then(userBuild.bind(this));
+    // this.$getUserInfo(({ packages }) => {});
+
+    function userBuild(result) {
+      let packages = result.packages;
       const list = this.helpers.getArray(this.list);
       list.map(obj => {
         const item = this.helpers.getObject(obj);
@@ -92,7 +96,7 @@ export default class userSubscribe extends parentPage {
       });
       this.list = list;
       this.loaded = true;
-    });
+    }
   }
 
   methods = {

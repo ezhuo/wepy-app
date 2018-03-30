@@ -172,7 +172,8 @@ export default class mainDetail extends parentPage {
     // })
 
     // 获取书架状态，优化本页交互
-    const ids = this.getCartList()
+    const ids = this.getCartList
+      .call(this)
       .filter(({ good }) => good)
       .map(({ good }) => this.helpers.getString(good.id));
     // 标识本商品已存在书架中
@@ -219,7 +220,8 @@ export default class mainDetail extends parentPage {
     },
     toAdd(book) {
       // 根据业务接口处理数据
-      this.addCart(
+      this.addCart.call(
+        this,
         {
           id: book.id,
           name: book.name,

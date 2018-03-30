@@ -54,7 +54,6 @@ export default class pageIndex extends parentPage {
   };
 
   onReady() {
-    console.log(this);
     this.initPageData();
   }
 
@@ -106,28 +105,33 @@ export default class pageIndex extends parentPage {
       () => {
         this.loading = false;
       }
-    ).then(({ code, data }) => {
-      // 示例规则：最多20本
-      if (this.list.length >= 20) {
-        this.noMoreList = true;
-        return;
-      }
+    )
+      .then(({ data }) => {
+        data = data.data || [];
+        // 示例规则：最多20本
+        if (this.list.length >= 20) {
+          this.noMoreList = true;
+          return;
+        }
 
-      // 请求到空列表后就认为没有更多了
-      if (this.helpers.isArray(data) && data.length === 0) {
-        this.noMoreList = true;
-        return;
-      }
-      if (!this.page || +this.page === 0) {
-        this.list = this.getBooks(data);
-      } else {
-        // 添加到列表中
-        this.list = [...this.list, ...this.getBooks(data)];
-      }
-      // 成功了就增加一页
-      this.page += 1;
-      this.$apply();
-    });
+        // 请求到空列表后就认为没有更多了
+        if (this.helpers.isArray(data) && data.length === 0) {
+          this.noMoreList = true;
+          return;
+        }
+        if (!this.page || +this.page === 0) {
+          this.list = this.getBooks(data);
+        } else {
+          // 添加到列表中
+          this.list = [...this.list, ...this.getBooks(data)];
+        }
+        // 成功了就增加一页
+        this.page += 1;
+        this.$apply();
+      })
+      .catch(() => {
+        this.$notice.info('加载失败！');
+      });
   }
 
   // 处理图书列表

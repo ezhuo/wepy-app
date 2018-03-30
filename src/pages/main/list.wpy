@@ -104,7 +104,8 @@ export default class mainList extends parentPage {
         this.loading = false;
       }
     )
-      .then(({ code, data }) => {
+      .then(({ data }) => {
+        data = data.data;
         // 示例规则：最多20本
         if (this.list.length >= 20) {
           this.noMoreList = true;
@@ -125,8 +126,8 @@ export default class mainList extends parentPage {
         this.page += 1;
         this.$apply();
       })
-      .catch(({ code, data }) => {
-        console.log('[updateBookList fail]', code, data);
+      .catch(({ data }) => {
+        console.log('[updateBookList fail]', data);
       });
   }
 
