@@ -42,7 +42,7 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import { userInfo } from '../config.js';
+import { userInfo } from '../../core/config.js';
 
 export default class pageUser extends parentPage {
   config = {

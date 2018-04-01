@@ -1,8 +1,5 @@
 <template>
   <view class="page-index">
-    <view>
-      <button type="primary" loading="{{httpLoading}}" bindtap="testtap" hover-class="other-button-hover"> default </button>
-    </view>
     <SearchBar :placeholder="searchText"></SearchBar>
     <Swiper :list.sync="swipers" height="280"></Swiper>
     <Category :list.sync="categorys" col="4"></Category>

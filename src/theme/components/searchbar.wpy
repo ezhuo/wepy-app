@@ -1,5 +1,5 @@
 <template>
-  <view class="weui-search-bar">
+  <view class="weui-search-bar search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 1), rgba(105,195,170, 0.3))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
@@ -32,7 +32,8 @@ export default class SearchBar extends parentComponent {
 
   data = {
     inputShowed: false,
-    inputVal: ''
+    inputVal: '',
+    scrollTop: 0
   };
 
   computed = {
@@ -71,6 +72,34 @@ export default class SearchBar extends parentComponent {
 @import '../styles/custom/fn.less';
 
 .weui-search-bar__cancel-btn {
-  color: @weuiColorPrimary;
+  /* color: @weuiColorPrimary; */
+  color:#fff;
+  font-weight:bold;
+}
+
+.search-view {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 500;
+  width: 100%;
+  /* height: 120rpx; */
+  /* background: gray; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  border:0
+}
+
+.search-btn{
+ 
+  background-color:blueviolet;
+ 
+  align-items: center;
+  border-top-left-radius: 0rpx;
+  border-bottom-left-radius: 0rpx;
+  
+  border:none;
+  position: relative;
 }
 </style>
