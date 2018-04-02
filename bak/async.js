@@ -35,7 +35,6 @@ f().then(v => console.log(v)); // 等待6s后才输出 'done'
 
 let a;
 async function f() {
-  
   try {
     await Promise.reject('error');
   } catch (err) {
@@ -44,3 +43,25 @@ async function f() {
   a = await 1; // 这段 await 并没有执行
 }
 f().then(v => console.log(a));
+
+
+class test {
+  static a() {
+    return 'test';
+  }
+
+  constructor() {
+    console.log('test-----------');
+  }
+}
+
+class test2 extends test {
+  constructor() {
+    super();
+    console.log('test2-----------');
+  }
+  static b() {
+    console.log('b');
+    return this.a();
+  }
+}

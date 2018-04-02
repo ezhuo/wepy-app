@@ -1,5 +1,4 @@
 import wxStorage from '../wxService/wxStorage';
-// import * as config from '../config.js';
 
 class Auth {
   __app = null;
