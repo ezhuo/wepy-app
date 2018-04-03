@@ -62,7 +62,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import { service } from '../../core/config.js';
 import { funImages } from '../../core/data/demo';
 
 export default class userBorrow extends parentPage {
@@ -95,10 +94,10 @@ export default class userBorrow extends parentPage {
     // })
 
     // =============== 随机示例 ===============
-    this.$httpPost(service.list)
+    this.http.post(this.appConfig.service.list)
       .then(({ data }) => {
         data = data.data;
-        this.getBorrow(this.helpers.getArray(data));
+        this.getBorrow(this.helpers.ifArray(data));
       })
       .catch(({ data }) => {
         data = data.data;
@@ -108,7 +107,7 @@ export default class userBorrow extends parentPage {
 
   methods = {
     goReturn(id) {
-      const str = this.helpers.getString(id);
+      const str = this.helpers.ifString(id);
       wx.navigateTo({ url: `/pages/user/return?id=${str}` });
     }
   };
@@ -130,7 +129,7 @@ export default class userBorrow extends parentPage {
   // 处理图书列表
   getBooks(data) {
     const len = this.list.length;
-    return this.helpers.getArray(data).map((book, index) => {
+    return this.helpers.ifArray(data).map((book, index) => {
       const xlen = len + index;
       // 拼接示例数据
       return {

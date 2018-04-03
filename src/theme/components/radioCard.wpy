@@ -55,7 +55,7 @@ export default class radioCard extends parentComponent {
     lists() {
       // 初始化已选项
       /* ============== 此处做法并不适合，但目前找不到拿到真正list的地方了 ============== */
-      const value = this.helpers.getString(this.value);
+      const value = this.helpers.ifString(this.value);
       for (var i = 0; i < this.list.length; i++) {
         if (this.isValueEqual(value, this.list[i][this.key])) {
           this.list[i].checked = true;
@@ -80,7 +80,7 @@ export default class radioCard extends parentComponent {
   };
 
   isValueEqual(a, b) {
-    return this.helpers.getString(a) === this.helpers.getString(b);
+    return this.helpers.ifString(a) === this.helpers.ifString(b);
   }
 }
 </script>

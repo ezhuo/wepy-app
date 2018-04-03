@@ -1,20 +1,19 @@
 <template>
   <view class="page-index">
     <SearchBar :placeholder="searchText"></SearchBar>
-    <Swiper :list.sync="swipers" height="280"></Swiper>
+    <Swiper :list.sync="swipers" height="380"></Swiper>
     <Category :list.sync="categorys" col="4"></Category>
-    <IndexList :list.sync="list" title="图书列表" :loading.sync="loading" :noMore.sync="noMoreList"></IndexList>
+    <DataList :list.sync="list" title="图书列表" :loading.sync="loading" :noMore.sync="noMoreList"></DataList>
   </view>
 </template>
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import { service } from '../../core/config.js';
-import { funImages } from '../../core/data/demo';
 import Swiper from '../../theme/components/swiper';
 import SearchBar from '../../theme/components/searchbar';
 import Category from '../../theme/components/category';
-import IndexList from '../../theme/components/indexList';
+import DataList from '../../theme/components/dataList';
+import { funImages } from '../../core/data/demo';
 
 export default class pageIndex extends parentPage {
   config = {
@@ -26,7 +25,7 @@ export default class pageIndex extends parentPage {
   components = {
     SearchBar,
     Category,
-    IndexList,
+    DataList,
     Swiper
   };
 
@@ -51,6 +50,7 @@ export default class pageIndex extends parentPage {
   };
 
   onReady() {
+    console.log(this);
     this.initPageData();
   }
 
@@ -79,8 +79,8 @@ export default class pageIndex extends parentPage {
     // 处理菜单栏
     this.categorys.map((cate, index) => {
       const xnum = Math.min(Math.max(index, 1), 3);
-      cate.url = `/pages/main/search?params=${this.helpers.$json({
-        value: [xnum, 4 - xnum].map(item => this.helpers.getString(item)),
+      cate.url = `/pages/main/search?params=${this.helpers.parseString({
+        value: [xnum, 4 - xnum].map(item => this.helpers.ifString(item)),
         index: index + 1,
         title: cate.title
       })}`;
@@ -92,17 +92,18 @@ export default class pageIndex extends parentPage {
     if (this.loading || this.noMoreList) return;
     this.loading = true;
     // 请求列表
-    this.$httpPost(
-      service.list,
-      {
-        // 默认从0开始为第一页
-        page: page,
-        size: this.size
-      },
-      () => {
-        this.loading = false;
-      }
-    )
+    this.http
+      .post(
+        this.appConfig.service.list,
+        {
+          // 默认从0开始为第一页
+          page: page,
+          size: this.size
+        },
+        () => {
+          this.loading = false;
+        }
+      )
       .then(({ data }) => {
         data = data.data || [];
         // 示例规则：最多20本
@@ -126,7 +127,8 @@ export default class pageIndex extends parentPage {
         this.page += 1;
         this.$apply();
       })
-      .catch(() => {
+      .catch(err => {
+        console.error(err);
         this.$notice.info('加载失败！');
       });
   }
@@ -134,7 +136,7 @@ export default class pageIndex extends parentPage {
   // 处理图书列表
   getBooks(data) {
     const len = this.list.length;
-    return this.helpers.getArray(data).map((book, index) => {
+    return this.helpers.ifArray(data).map((book, index) => {
       const xlen = len + index;
       // 拼接示例数据
       return {
@@ -148,20 +150,7 @@ export default class pageIndex extends parentPage {
     });
   }
 
-  methods = {
-    testtap() {
-      this.$alert
-        .confirm('fdas')
-        .then(() => {
-          this.$httpGet('https://www.baidu.com', { a: 1, b: 2 }).then(res => {
-            console.log(res);
-          });
-        })
-        .catch(() => {
-          this.$notice.info('取消');
-        });
-    }
-  };
+  methods = {};
 }
 </script>
 

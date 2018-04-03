@@ -1,6 +1,6 @@
 <template>
-  <view class="weui-search-bar search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 1), rgba(105,195,170, 0.3))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
-    <view class="weui-search-bar__form">
+  <view class="weui-search-bar search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 0.1), rgba(105,195,170, 0.1))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
+    <view class="weui-search-bar__form weui-search-bar__input2">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
         <input type="text" class="weui-search-bar__input" placeholder="{{placeholder}}" value="{{inputVal}}" focus="{{inputShowed}}" @input="inputTyping" @blur="showInput(false)" confirm-type="search" @confirm="search" />
@@ -10,12 +10,12 @@
           </view>
         </block>
       </view>
-      <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput(true)">
+      <!-- <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput(true)">
         <icon class="weui-icon-search" type="search" size="14"></icon>
         <view class="weui-search-bar__text">{{computedPlaceholder}}</view>
-      </label>
+      </label> -->
     </view>
-    <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" @tap="search">搜索</view>
+    <view class="weui-search-bar__cancel-btn" hidden="{{inputShowed}}" @tap="search">搜索</view>
   </view>
 </template>
 
@@ -73,14 +73,17 @@ export default class SearchBar extends parentComponent {
 
 .weui-search-bar__cancel-btn {
   /* color: @weuiColorPrimary; */
-  color:#fff;
-  font-weight:bold;
+  color: #fff;
+  /* font-weight: bold; */
 }
 
 .search-view {
-  position: fixed;
-  left: 0;
-  right: 0;
+  position: absolute;
+  /* position: fixed; */
+  /* left: 0; */
+  /* right: 0; */
+  padding-left:50rpx;
+  padding-right:50rpx;
   top: 0;
   z-index: 500;
   width: 100%;
@@ -88,18 +91,14 @@ export default class SearchBar extends parentComponent {
   /* background: gray; */
   /* display: flex; */
   /* flex-direction: column; */
-  border:0
-}
-
-.search-btn{
- 
-  background-color:blueviolet;
- 
-  align-items: center;
-  border-top-left-radius: 0rpx;
-  border-bottom-left-radius: 0rpx;
-  
-  border:none;
-  position: relative;
+  border: 0;
+  .weui-search-bar__input2 {
+    background-color: transparent;
+    color: #fff;
+    filter: alpha(opacity=0); /*androd*/
+    appearance: none; /*下拉框去掉右侧图标*/
+    -moz-appearance: none;
+    -webkit-appearance: none;
+  }
 }
 </style>

@@ -3,10 +3,10 @@
     <block wx:for="{{list}}" wx:key="index">
       <swiper-item>
         <navigator wx:if="{{item.url}}" url="{{item.url}}">
-          <image src="{{item.image}}" style="height:{{style_height}}" class="swiper-image" mode="widthFix" />
+          <image src="{{item.image}}" style="height:{{style_height}}" class="swiper-image" mode="scaleToFill" />
         </navigator>
         <view wx:else style="height:{{style_height}}">
-          <image src="{{item.image}}" style="height:{{style_height}}" class="swiper-image" mode="aspectFit" />
+          <image src="{{item.image}}" style="height:{{style_height}}" class="swiper-image" mode="scaleToFill" />
         </view>
       </swiper-item>
     </block>
@@ -44,9 +44,10 @@ export default class Swiper extends parentComponent {
     },
     style_height() {
       const h = this.height;
-      return this.helpers.isNumber(+h)
+      const res = this.helpers.isNumber(+h)
         ? `${h}rpx`
         : this.isMatchHeight(h) ? h : '240rpx';
+      return res;
     }
   };
 

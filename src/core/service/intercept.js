@@ -1,4 +1,4 @@
-import * as config from '../config';
+import base from '../base';
 
 class Intercept {
   // 发出请求时的回调函数
@@ -15,7 +15,7 @@ class Intercept {
       params.header, {
         'content-type': 'application/json'
       },
-      config.setRequestHeader(params.data, tokenid, openid));
+      base.setRequestHeader(params.data, tokenid, openid));
 
     // console.log('config request: ', params);
     // 必须返回OBJECT参数对象，否则无法发送请求到服务端

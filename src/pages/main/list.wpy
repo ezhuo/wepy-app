@@ -9,15 +9,14 @@
       </view>
       <text @tap="clearSearch" class="link link-blue pull-right">清空筛选</text>
     </view>
-    <IndexList :list.sync="list" :loading.sync="loading" :noMore.sync="noMoreList"></IndexList>
+    <DataList :list.sync="list" :loading.sync="loading" :noMore.sync="noMoreList"></DataList>
   </view>
 </template>
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import { service } from '../../core/config.js';
 import { funImages } from '../../core/data/demo';
-import IndexList from '../../theme/components/indexList';
+import DataList from '../../theme/components/dataList';
 
 export default class mainList extends parentPage {
   config = {
@@ -71,7 +70,7 @@ export default class mainList extends parentPage {
     keywords() {
       const title = this.params && this.params.title;
       const words = this.params && this.params.key_word;
-      const keywords = this.helpers.getString(words || title).split(/\s+/g);
+      const keywords = this.helpers.ifString(words || title).split(/\s+/g);
       return keywords.filter(item => item) || [];
     }
   };
@@ -93,9 +92,9 @@ export default class mainList extends parentPage {
     this.loading = true;
     // 推荐列表
 
-    this.$httpPost(
-      service.list,
-      Object.assign({}, this.helpers.getObject(this.params), {
+    this.http.post(
+      this.appConfig.service.list,
+      Object.assign({}, this.helpers.ifObject(this.params), {
         // 默认从0开始为第一页
         page: page,
         size: this.size
@@ -134,7 +133,7 @@ export default class mainList extends parentPage {
   // 处理图书列表
   getBooks(data) {
     const len = this.list.length;
-    return this.helpers.getArray(data).map((book, index) => {
+    return this.helpers.ifArray(data).map((book, index) => {
       const xlen = len + index;
       // 拼接示例数据
       return {
@@ -149,7 +148,7 @@ export default class mainList extends parentPage {
   }
 
   components = {
-    IndexList
+    DataList
   };
 }
 </script>

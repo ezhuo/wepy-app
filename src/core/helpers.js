@@ -78,19 +78,13 @@ export function IsEmpty(obj) {
   return !Boolean(obj);
 }
 
-export function getNow() {
-  return '';
-}
-
-export function parseJSON(obj) {
-  if (obj == null || obj === undefined) {
-    return obj;
-  }
-  try {
-    return JSON.parse(obj);
-  } catch (e) {
-    return null;
-  }
+/**
+ * [功能方法]
+ * @param  {[type]}  item [description]
+ * @return {Boolean}      [description]
+ */
+export function isPhone(str) {
+  return /^1\d{10}$/.test(str)
 }
 
 export function noop() {
@@ -101,32 +95,31 @@ export function hasOwn(obj, type) {
   return Object.prototype.hasOwnProperty.call(obj, type);
 }
 
-/**
- * [getXXX 增强方法]
- * @param  {[type]}  item [description]
- * @return {Boolean}      [description]
- */
-export function getString(item, defaultStr) {
+export function getNow() {
+  return timestampToDate(new Date().getTime(),'Y-M-D h:m:s');
+}
+
+export function ifString(item, defaultStr) {
   if (isString(item)) return item.trim();
   if (isNumber(item)) return `${item}`.trim();
   return defaultStr || '';
 }
 
-export function getNumber(item, defaultNum) {
-  var matches = getString(item).match(/\d+/);
+export function ifNumber(item, defaultNum) {
+  var matches = ifString(item).match(/\d+/);
   return isNumber(matches && +matches[0]) ? +matches[0] : defaultNum;
 }
 
-export function getArray(item, defaultArr) {
+export function ifArray(item, defaultArr) {
   return isArray(item) ? item : (defaultArr || []);
 }
 
-export function getObject(item, defaultObj) {
+export function ifObject(item, defaultObj) {
   return isObject(item) ? item : (defaultObj || {});
 }
 
-export function getFunction(item) {
-  return isFunction(item) ? item : noop();
+export function ifFunction(item) {
+  return isFunction(item) ? item : noop;
 }
 
 /**
@@ -134,7 +127,10 @@ export function getFunction(item) {
  * @param  {[type]}  item [description]
  * @return {Boolean}      [description]
  */
-export function $json(item) {
+export function parseString(item) {
+  if (item == null || item === undefined) {
+    return item;
+  }
   let str = {
     type: Object.prototype.toString.call(item)
   }
@@ -143,10 +139,13 @@ export function $json(item) {
   } catch (e) {
     str.error = (e && e.stack) || ''
   }
-  return isString(str) ? str : $json(str)
+  return isString(str) ? str : parseString(str)
 }
 
-export function $parse(item) {
+export function parseJson(item) {
+  if (item == null || item === undefined) {
+    return item;
+  }
   let obj = {
     type: Object.prototype.toString.call(item)
   }
@@ -155,16 +154,7 @@ export function $parse(item) {
   } catch (e) {
     obj.error = (e && e.stack) || ''
   }
-  return isObject(obj) ? obj : $parse(obj)
-}
-
-/**
- * [功能方法]
- * @param  {[type]}  item [description]
- * @return {Boolean}      [description]
- */
-export function isPhone(str) {
-  return /^1\d{10}$/.test(str)
+  return isObject(obj) ? obj : parseJson(obj)
 }
 
 export function jsonToUrl(obj) {
@@ -194,11 +184,11 @@ export const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-export const timeToDate = (number, format) => {
+export const timestampToDate = (number, format) => {
   var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
   var returnArr = [];
 
-  var date = new Date(number * 1000);
+  var date = new Date(number); // 此处，要是传过来的时间戳 是秒 ，则要*1000，如果是毫秒，则不用
   returnArr.push(date.getFullYear());
   returnArr.push(formatNumber(date.getMonth() + 1));
   returnArr.push(formatNumber(date.getDate()));

@@ -1,6 +1,6 @@
 <template>
   <view class="user-collect" wx:if="{{list.length}}">
-    <IndexList :list.sync="list" :loading.sync="loading" :noMore.sync="noMoreList" type="collect"></IndexList>
+    <DataList :list.sync="list" :loading.sync="loading" :noMore.sync="noMoreList" type="collect"></DataList>
   </view>
   <view wx:else class="user-collect-tip tip-page">
     <block wx:if="{{loaded}}">
@@ -16,9 +16,8 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import { service } from '../../core/config.js';
 import { funImages } from '../../core/data/demo';
-import IndexList from '../../theme/components/indexList';
+import DataList from '../../theme/components/dataList';
 
 export default class userCollect extends parentPage {
   config = {
@@ -67,9 +66,9 @@ export default class userCollect extends parentPage {
     if (this.loading || this.noMoreList) return;
     this.loading = true;
     // 推荐列表
-    this.$httpPost(
-      service.list,
-      Object.assign({}, this.helpers.getObject(this.params), {
+    this.http.post(
+      this.appConfig.service.list,
+      Object.assign({}, this.helpers.ifObject(this.params), {
         type: 'collect',
         page: page,
         size: this.size
@@ -108,7 +107,7 @@ export default class userCollect extends parentPage {
   // 处理图书列表
   getBooks(data) {
     const len = this.list.length;
-    return this.helpers.getArray(data).map((book, index) => {
+    return this.helpers.ifArray(data).map((book, index) => {
       const xlen = len + index;
       // 拼接示例数据
       return {
@@ -130,7 +129,7 @@ export default class userCollect extends parentPage {
   };
 
   components = {
-    IndexList
+    DataList
   };
 }
 </script>

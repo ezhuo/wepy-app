@@ -42,7 +42,7 @@ export default class borrowResult extends parentPage {
   onLoad(query) {
     const type = query && +query.type;
     const message = query && query.message;
-    this.type = this.helpers.getNumber(type);
+    this.type = this.helpers.ifNumber(type);
     this.message = message || '发生了一些异常，再试一次！';
   }
 

@@ -3,7 +3,7 @@
     <view class="weui-panel">
       <block wx:if="{{banners && banners.length}}">
         <view class="detail-cover">
-          <Swiper :list.sync="banners" height="200" :navigate="navigate"></Swiper>
+          <Swiper :list.sync="banners" height="280" :navigate="navigate"></Swiper>
         </view>
       </block>
       <block wx:else>
@@ -64,7 +64,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-// import { service } from '../../config.js'
 import { funImages } from '../../core/data/demo';
 import Swiper from '../../theme/components/swiper';
 import Screen from '../../theme/components/screen';
@@ -109,7 +108,7 @@ export default class mainDetail extends parentPage {
 
   computed = {
     banners() {
-      return this.helpers.getArray(this.book && this.book.images);
+      return this.helpers.ifArray(this.book && this.book.images);
     },
     description() {
       const desc = this.book && this.book.desc;
@@ -139,11 +138,13 @@ export default class mainDetail extends parentPage {
     // ======== 此处示例代码，方便示例展示 ========
     setTimeout(() => {
       this.book = Object.assign({}, this.book, {
-        id: this.helpers.getString(id) || this.book.id,
+        id: this.helpers.ifString(id) || this.book.id,
         name: title || '假如生活欺骗了你',
         author: author || '普希金',
-        stock: Math.abs((status || Math.round(Math.random())) - 1)
+        // stock: Math.abs((status || Math.round(Math.random())) - 1)
+        stock: 2
       });
+      console.log(this.book);
       this.$apply();
     }, 1000);
   }
@@ -172,12 +173,12 @@ export default class mainDetail extends parentPage {
     // })
 
     // 获取书架状态，优化本页交互
-    const ids = this.getCartList
+    const ids = this.caseCart.getCartList
       .call(this)
       .filter(({ good }) => good)
-      .map(({ good }) => this.helpers.getString(good.id));
+      .map(({ good }) => this.helpers.ifString(good.id));
     // 标识本商品已存在书架中
-    if (ids.indexOf(this.helpers.getString(this.book.id)) > -1) {
+    if (ids.indexOf(this.helpers.ifString(this.book.id)) > -1) {
       this.book.exist = 1;
     }
     // 切换展示库存: 0/1
@@ -220,7 +221,7 @@ export default class mainDetail extends parentPage {
     },
     toAdd(book) {
       // 根据业务接口处理数据
-      this.addCart.call(
+      this.caseCart.addCart.call(
         this,
         {
           id: book.id,
@@ -228,7 +229,8 @@ export default class mainDetail extends parentPage {
           author: book.author
         },
         ({ code, message }) => {
-          const exist = this.helpers.getObject(this.book).exist;
+          debugger;
+          const exist = this.helpers.ifObject(this.book).exist;
           // 匹配加车状态
           switch (+code) {
             case 0: {

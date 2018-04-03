@@ -64,16 +64,16 @@ export default class checkboxButton extends parentComponent {
     },
     style_width() {
       const col = this.col;
-      return this.getPercent(1 / this.helpers.getNumber(col, 4));
+      return this.getPercent(1 / this.helpers.ifNumber(col, 4));
     },
     style_gutter() {
       const gutter = this.gutter;
-      return this.getGutter(this.helpers.getNumber(gutter, 16), this.unit);
+      return this.getGutter(this.helpers.ifNumber(gutter, 16), this.unit);
     },
     style_gutter_edge() {
       const gutter = this.gutter;
-      const col = this.helpers.getNumber(this.col, 4);
-      const edge = (col - 1) * this.helpers.getNumber(gutter, 16) / col;
+      const col = this.helpers.ifNumber(this.col, 4);
+      const edge = (col - 1) * this.helpers.ifNumber(gutter, 16) / col;
       return this.getGutter(-edge, this.unit);
     }
   };
@@ -94,7 +94,7 @@ export default class checkboxButton extends parentComponent {
 
   initCheckBox() {
     // 初始化已选项
-    const value = this.helpers.getString(this.value);
+    const value = this.helpers.ifString(this.value);
     for (var i = 0; i < this.list.length; i++) {
       if (this.isValueEqual(value, this.list[i].value)) {
         this.list[i].checked = true;
@@ -103,7 +103,7 @@ export default class checkboxButton extends parentComponent {
   }
 
   isValueEqual(a, b) {
-    return this.helpers.getArray(a).indexOf(this.helpers.getString(b)) > -1;
+    return this.helpers.ifArray(a).indexOf(this.helpers.ifString(b)) > -1;
   }
 
   getPercent(num) {

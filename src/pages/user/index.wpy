@@ -55,29 +55,30 @@ export default class pageUser extends parentPage {
 
   computed = {
     packages() {
-      return this.helpers.getObject(
-        this.helpers.getObject(this.userInfo).packages
+      return this.helpers.ifObject(
+        this.helpers.ifObject(this.userInfo).packages
       );
     },
     identity() {
-      return this.helpers.getObject(
-        this.helpers.getObject(this.userInfo).identity
+      return this.helpers.ifObject(
+        this.helpers.ifObject(this.userInfo).identity
       );
     },
     nickName() {
-      const info = this.helpers.getObject(this.userInfo);
+      const info = this.helpers.ifObject(this.userInfo);
       // 名称或头像不为空的，才认为是授权用户
       return info.nickName || info.avatarUrl ? info.nickName : '未授权用户';
     }
   };
 
   onShow() {
+    console.log(this);
     // 初始化页面数据
     this.wxService.userLogin(this).then(userBuild.bind(this));
     function userBuild(result) {
       const info = result.userInfo;
-      const uinfo = this.helpers.getObject(info);
-      const userInfo = this.helpers.getObject(this.userInfo);
+      const uinfo = this.helpers.ifObject(info);
+      const userInfo = this.helpers.ifObject(this.userInfo);
       this.userInfo = Object.assign({}, userInfo, uinfo);
       this.initPageData();
     }

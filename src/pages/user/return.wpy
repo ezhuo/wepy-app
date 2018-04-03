@@ -26,7 +26,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-// import { service } from '../../config.js'
 
 export default class userReturn extends parentPage {
   config = {
@@ -42,7 +41,7 @@ export default class userReturn extends parentPage {
   };
 
   onLoad(query) {
-    this.id = this.helpers.getString(query && +query.id);
+    this.id = this.helpers.ifString(query && +query.id);
   }
 
   onReady() {
@@ -68,10 +67,10 @@ export default class userReturn extends parentPage {
 
   methods = {
     doReturn() {
-      if (!this.helpers.getString(this.express_co)) {
+      if (!this.helpers.ifString(this.express_co)) {
         return this.$alert.info('请输入快递公司');
       }
-      if (!this.helpers.getString(this.express_id)) {
+      if (!this.helpers.ifString(this.express_id)) {
         return this.$alert.info('请输入快递单号');
       }
 

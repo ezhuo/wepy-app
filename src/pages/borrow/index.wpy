@@ -69,7 +69,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-// import { service } from '../config.js'
 
 export default class pageBorrow extends parentPage {
   config = {
@@ -118,20 +117,20 @@ export default class pageBorrow extends parentPage {
       this.loaded = true;
       // 初始化收件人信息
       const { identity, packages, nickName } = data;
-      this.phone = this.helpers.getString(
+      this.phone = this.helpers.ifString(
         this.phone || identity.mobile,
         '手机号码'
       );
-      this.address = this.helpers.getString(
+      this.address = this.helpers.ifString(
         this.address || identity.address,
         '地址'
       );
-      this.receiver = this.helpers.getString(this.receiver || nickName, '用户');
-      this.borrowTime = this.helpers.getNumber(
+      this.receiver = this.helpers.ifString(this.receiver || nickName, '用户');
+      this.borrowTime = this.helpers.ifNumber(
         this.borrowTime || packages.times,
         1
       );
-      this.borrowCount = this.helpers.getNumber(
+      this.borrowCount = this.helpers.ifNumber(
         this.borrowCount || packages.quantity,
         5
       );
@@ -175,7 +174,7 @@ export default class pageBorrow extends parentPage {
         // 提示成功/失败
         wx.navigateTo({
           // type: 成功 = 0，失败 > 0，
-          url: `/pages/borrow/result?type=${this.helpers.getNumber(
+          url: `/pages/borrow/result?type=${this.helpers.ifNumber(
             res.code
           )}&message=${res.message}`
         });
@@ -218,7 +217,7 @@ export default class pageBorrow extends parentPage {
         });
     },
     remove(item) {
-      this.removeCart.call(this, item, () => {
+      this.caseCart.removeCart.call(this, item, () => {
         this.updateBorrowList();
       });
     },
@@ -236,11 +235,11 @@ export default class pageBorrow extends parentPage {
   };
 
   updateBorrowList() {
-    if (!this.helpers.getNumber(this.borrowCount)) return;
+    if (!this.helpers.ifNumber(this.borrowCount)) return;
 
     // 获取购物车信息
-    this.getCartList.call(this, list => {
-      const realist = this.helpers.getArray(list, []);
+    this.caseCart.getCartList.call(this, list => {
+      const realist = this.helpers.ifArray(list, []);
       const lenList = [];
       for (var i = 0; i < +this.borrowCount; i++) {
         lenList.push(realist[i] || {});

@@ -53,7 +53,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-// import { service } from '../../config.js'
 import { packages } from '../../core/data/demo';
 import radioCard from '../../theme/components/radioCard';
 
@@ -79,17 +78,17 @@ export default class borrowSubscribe extends parentPage {
 
   computed = {
     listIndex() {
-      const arr = this.helpers.getArray(
+      const arr = this.helpers.ifArray(
         (this.list || []).filter((item, index) => {
           item.TEMPINDEX = index;
           return (
-            this.helpers.getString(this.value) ===
-            this.helpers.getString(item.id)
+            this.helpers.ifString(this.value) ===
+            this.helpers.ifString(item.id)
           );
         })
       );
       const index = arr[0] && arr[0].TEMPINDEX;
-      return this.helpers.getNumber(index);
+      return this.helpers.ifNumber(index);
     },
     realPrice() {
       const item = this.list && this.list[this.listIndex];
@@ -126,17 +125,17 @@ export default class borrowSubscribe extends parentPage {
 
     // ===== 以下随机示例 =====
     setTimeout(() => {
-      this.list = this.helpers.getArray(packages);
+      this.list = this.helpers.ifArray(packages);
       self.wxService.userLogin(self).then(userBuild.bind(self));
       // this.$getUserInfo(user => {
-      //   this.phone = this.helpers.getString(
-      //     this.helpers.getObject(user.identity).mobile
+      //   this.phone = this.helpers.ifString(
+      //     this.helpers.ifObject(user.identity).mobile
       //   );
       // });
       function userBuild(result) {
         const user = result.userInfo;
-        this.phone = this.helpers.getString(
-          this.helpers.getObject(user.identity).mobile
+        this.phone = this.helpers.ifString(
+          this.helpers.ifObject(user.identity).mobile
         );
       }
     }, 200);
@@ -149,16 +148,16 @@ export default class borrowSubscribe extends parentPage {
       if (!this.helpers.isPhone(this.phone)) {
         return this.$alert.info('请输入正确的手机号码');
       }
-      if (!this.helpers.getString(this.code)) {
+      if (!this.helpers.ifString(this.code)) {
         return this.$alert.info('请输入验证码');
       }
-      if (!this.helpers.getString(this.value)) {
+      if (!this.helpers.ifString(this.value)) {
         return this.$alert.info('请选择订阅时长');
       }
       const data = {
-        mobile: this.helpers.getString(this.phone),
-        code: this.helpers.getString(this.code),
-        pid: this.helpers.getString(this.value)
+        mobile: this.helpers.ifString(this.phone),
+        code: this.helpers.ifString(this.code),
+        pid: this.helpers.ifString(this.value)
       };
       // 开防抖
       this.loading = true;
@@ -211,7 +210,7 @@ export default class borrowSubscribe extends parentPage {
 
     // ===================== 以下为success随机示例 =====================
     setTimeout(() => {
-      const params = this.helpers.getObject({
+      const params = this.helpers.ifObject({
         timeStamp: '',
         nonceStr: '',
         package: '',
@@ -260,7 +259,7 @@ export default class borrowSubscribe extends parentPage {
   }
 
   timing(time) {
-    this.time = this.helpers.getNumber(time);
+    this.time = this.helpers.ifNumber(time);
     this.$apply();
     this.timer = setTimeout(() => {
       if (time > 0) {

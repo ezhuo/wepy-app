@@ -1,49 +1,35 @@
 import wepy from 'wepy';
-import wxStorage from '../wxService/wxStorage';
-import * as WxService from '../wxService/wxService.js';
-import * as wxNotice from '../wxService/wxNotice.js';
-import * as helpers from '../../core/helpers.js';
-import * as wxHttp from '../wxService/wxHttp.js';
-import $Auth from '../data/auth.js';
+import http from '../http.js';
+import wxService from '../service/wxService.js';
 
 export default class IndexMixin extends wepy.mixin {
   data = {
     httpLoading: false
   }
+  wxService = wxService;
 
-  $storage = wxStorage;
+  $storage = http.$storage;
+  $notice = http.$notice;
+  $alert = http.$alert;
+  $auth = http.$auth;
+  helpers = http.helpers;
+  appConfig = http.appConfig;
 
-  $notice = wxNotice.$notice;
-
-  $alert = wxNotice.$alert;
-
-  $auth = (() => {
-    return new $Auth(this)
-  })(this);
-
-  helpers = (() => {
-    return helpers
-  })(this);
-
-  wxService = WxService;
-
-  async $http(method, api, body = {}, complete = null) {
-    return wxHttp.http(this, method, api, body, complete);
-  }
-
-  async $httpGet(api, body = {}, complete = null) {
-    return wxHttp.get(this, api, body, complete);
-  }
-
-  async $httpPost(api, body = {}, complete = null) {
-    return wxHttp.post(this, api, body, complete);
-  }
-
-  async $httpPut(api, body = {}, complete = null) {
-    return wxHttp.put(this, api, body, complete);
-  }
-
-  async $httpDelete(api, body = {}, complete = null) {
-    return wxHttp.del(this, api, body, complete);
+  http = {
+    async http(method, api, body = {}, complete = null) {
+      return http.http(this, method, api, body, complete);
+    },
+    async get(api, body = {}, complete = null) {
+      return http.get(this, api, body, complete);
+    },
+    async post(api, body = {}, complete = null) {
+      return http.post(this, api, body, complete);
+    },
+    async put(api, body = {}, complete = null) {
+      return http.put(this, api, body, complete);
+    },
+    async delete(api, body = {}, complete = null) {
+      return http.del(this, api, body, complete);
+    }
   }
 }

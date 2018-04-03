@@ -64,5 +64,8 @@ export const $notice = {
   clear() {
     wx.hideToast();
     wx.hideLoading();
+  },
+  clearLoad() {
+    wx.hideLoading();
   }
 }

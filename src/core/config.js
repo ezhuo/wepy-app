@@ -1,5 +1,3 @@
-import md5 from 'blueimp-md5';
-
 export const app = {
   key: 'zs',
   name: 'ezhuo',
@@ -40,7 +38,7 @@ export const userInfo = {
 
   nickName: '加载中...',
   // 头像占位图
-  avatarUrl: '../images/icon/icon-avatar@2x.png',
+  avatarUrl: '../../images/icon/icon-avatar@2x.png',
 
   packages: {
     times: 0,
@@ -117,28 +115,3 @@ export const httpCode = {
   422: '验证：',
   500: '服务器端异常！'
 };
-
-export const setRequestHeader = function ($data, $token = null, $openid = null) {
-  let headers = {}
-  let rData = $data || {}
-  rData = JSON.stringify(rData)
-  // console.log($data)
-  try {
-    // 数据发送类型
-    headers.style = http.style || '10';
-    // token
-    headers.token = $token || '' // 用户TOKEN
-    headers.openid = $openid || '' // openid
-    headers.weixin = '10';
-    // check
-    // let md5_src = headers.style + headers.token + JSON.stringify(rData) + _app_options.define_config.REQUEST_CHECK_CODE;
-    let md5Src = headers.style + headers.token + rData + http.check;
-    // check
-    headers.validate = md5(md5Src)
-    // console.log(md5_src, headers.validate);
-    // console.log(rData);
-  } catch (e) {
-    console.error(e)
-  }
-  return headers
-}

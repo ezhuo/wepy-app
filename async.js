@@ -65,3 +65,38 @@ class test2 extends test {
     return this.a();
   }
 }
+
+
+
+const typeCheck = function (o) {
+  const s = Object.prototype.toString.call(o);
+  return s
+    .match(/\[object (.*?)\]/)[1]
+    .toLowerCase()
+    .trim();
+};
+
+const isTypeCheck = function (typeName, obj) {
+  return (
+    typeName
+    .toLowerCase()
+    .slice(2)
+    .trim() === typeCheck(obj)
+  );
+};
+
+ function isString(obj) {
+  return isTypeCheck(isString.name, obj);
+}
+
+ function $json(item) {
+  let str = {
+    type: Object.prototype.toString.call(item)
+  }
+  try {
+    str = JSON.stringify(item)
+  } catch (e) {
+    str.error = (e && e.stack) || ''
+  }
+  return isString(str) ? str : $json(str)
+}

@@ -1,11 +1,13 @@
 <script>
 import wepy from 'wepy';
 import 'wepy-async-function';
-import { InterceptRequest } from './core/data/intercept.js';
-import * as wxService from './core/wxService/wxService.js';
+import { InterceptRequest } from './core/service/intercept.js';
+import wxService from './core/service/wxService.js';
 import * as helpers from './core/helpers.js';
-
-// import { service } from './config.js'
+import { setStore } from 'wepy-redux';
+import configStore from './core/store';
+const store = configStore();
+setStore(store);
 
 export default class extends wepy.app {
   constructor() {
@@ -48,14 +50,14 @@ export default class extends wepy.app {
       list: [
         {
           pagePath: 'pages/main/index',
-          selectedIconPath: './images/tabbars/icon-mark-active@2x.png',
-          iconPath: './images/tabbars/icon-mark@2x.png',
+          selectedIconPath: './images/tabbars/icon-home-active@2x.png',
+          iconPath: './images/tabbars/icon-home@2x.png',
           text: '首页'
         },
         {
           pagePath: 'pages/borrow/index',
-          selectedIconPath: './images/tabbars/icon-shelf-active@2x.png',
-          iconPath: './images/tabbars/icon-shelf@2x.png',
+          selectedIconPath: './images/tabbars/icon-add-active@2x.png',
+          iconPath: './images/tabbars/icon-add@2x.png',
           text: '发布'
         },
         {
@@ -115,6 +117,5 @@ export default class extends wepy.app {
 </script>
 
 <style lang="less">
-@import './theme/styles/weui/weui.wxss';
-@import './theme/styles/custom/index.less';
+@import './theme/styles/index.wxss';
 </style>

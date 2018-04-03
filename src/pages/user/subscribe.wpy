@@ -15,7 +15,6 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-// import { service } from '../../config.js'
 
 export default class userSubscribe extends parentPage {
   config = {
@@ -82,11 +81,11 @@ export default class userSubscribe extends parentPage {
 
     function userBuild(result) {
       let packages = result.packages;
-      const list = this.helpers.getArray(this.list);
+      const list = this.helpers.ifArray(this.list);
       list.map(obj => {
-        const item = this.helpers.getObject(obj);
-        const unit = this.helpers.getString(item.unit);
-        const value = this.helpers.getNumber(packages[item.key], null);
+        const item = this.helpers.ifObject(obj);
+        const unit = this.helpers.ifString(item.unit);
+        const value = this.helpers.ifNumber(packages[item.key], null);
         value &&
           Object.assign(item, {
             title: `${value}${unit}`,
