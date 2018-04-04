@@ -54,7 +54,7 @@
 <script>
 import parentPage from '../../core/parent/page.js';
 import { packages } from '../../core/data/demo';
-import radioCard from '../../theme/components/radioCard';
+import radioCard from '../../theme/components/public/radioCard';
 
 export default class borrowSubscribe extends parentPage {
   config = {

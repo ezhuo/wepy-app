@@ -1,0 +1,38 @@
+<template>
+  <view class="info-box weui-flex">
+    <image class="avatar weui-flex_item" src="{{info.avatarUrl}}" />
+    <text class="name weui-flex_item">{{info.nickName}}</text>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class AvatarPanel extends wepy.component {
+  props = {
+    info: {}
+  };
+}
+</script>
+
+<style lang="less">
+@import '../../styles/custom/fn.less';
+.info-box {
+  flex-direction: column;
+  align-items: center;
+  height: 300rpx;
+  justify-content: center;
+  background-color: @weuiColorPrimary;
+
+  .avatar {
+    height: 160rpx;
+    width: 160rpx;
+    border-radius: 50%;
+  }
+
+  .name {
+    color: white;
+    // font-size: $text-xxl;
+    margin-top: 20rpx;
+  }
+}
+</style>

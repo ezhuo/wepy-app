@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import parentComponent from '../../core/parent/component.js';
+import parentComponent from '@/core/parent/component.js';
 
 export default class SearchBar extends parentComponent {
   props = {
@@ -69,7 +69,7 @@ export default class SearchBar extends parentComponent {
 </script>
 
 <style type="less">
-@import '../styles/custom/fn.less';
+@import '../../styles/custom/fn.less';
 
 .weui-search-bar__cancel-btn {
   /* color: @weuiColorPrimary; */

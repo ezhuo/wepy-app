@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import parentComponent from '../../core/parent/component.js';
+import parentComponent from '@/core/parent/component.js';
 
 export default class Swiper extends parentComponent {
   props = {

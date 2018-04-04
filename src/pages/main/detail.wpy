@@ -65,8 +65,8 @@
 <script>
 import parentPage from '../../core/parent/page.js';
 import { funImages } from '../../core/data/demo';
-import Swiper from '../../theme/components/swiper';
-import Screen from '../../theme/components/screen';
+import Swiper from '../../theme/components/public/swiper';
+import Screen from '../../theme/components/public/screen';
 
 export default class mainDetail extends parentPage {
   config = {

@@ -16,7 +16,7 @@
 <script>
 import parentPage from '../../core/parent/page.js';
 import { funImages } from '../../core/data/demo';
-import DataList from '../../theme/components/dataList';
+import DataList from '../../theme/components/public/dataList';
 
 export default class mainList extends parentPage {
   config = {

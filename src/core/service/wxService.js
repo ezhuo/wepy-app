@@ -2,23 +2,28 @@ import wepy from 'wepy';
 import http from '../http';
 
 export default class wxService extends http {
+  /**
+   * 用户登录
+   */
   static async userLogin($app) {
     try {
-      let $auth = $app.$auth;
-      if (!$auth) {
-        $auth = this.$auth;
-      }
+      const $auth = this.$auth;
+      // console.log($auth.loginData);
+      // 已登录
       if ($auth && $auth.loginData && $auth.loginData.openid) {
         return Promise.resolve({
           loginData: $auth.loginData,
           userInfo: $auth.userInfo
         });
       }
+
+      // 重新登录
       const loginInfo = (await this.login($app)) || {};
       $auth.loginData = loginInfo.loginData;
       $auth.userInfo = Object.assign(loginInfo.userInfo, {
         openid: loginInfo.loginData.openid
       });
+      // 刷新
       return Promise.resolve(loginInfo);
     } catch (err) {
       console.error(err);
@@ -36,11 +41,11 @@ export default class wxService extends http {
         }) || {};
         res.data = res.data || {};
         if (res.data.data) {
-          $app.globalData.loginData = $app.globalData.loginData || {};
-          const loginData = Object.assign($app.globalData.loginData, res.data.data, {
+          wepy.$instance.globalData.loginData = wepy.$instance.globalData.loginData || {};
+          const loginData = Object.assign(wepy.$instance.globalData.loginData, res.data.data, {
             code: login.code
           });
-          $app.globalData.loginData = loginData;
+          wepy.$instance.globalData.loginData = loginData;
           // 开始获取用户信息
           const userInfo = await this.getUserInfo($app, loginData);
           if (userInfo) {

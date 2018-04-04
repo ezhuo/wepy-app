@@ -1,7 +1,7 @@
 <script>
 import wepy from 'wepy';
 import 'wepy-async-function';
-import { InterceptRequest } from './core/service/intercept.js';
+import Intercept from './core/service/intercept.js';
 import wxService from './core/service/wxService.js';
 import * as helpers from './core/helpers.js';
 import { setStore } from 'wepy-redux';
@@ -14,7 +14,7 @@ export default class extends wepy.app {
     super();
     this.use('requestfix');
     this.use('promisify');
-    this.intercept('request', InterceptRequest.call(this));
+    this.intercept('request', new Intercept());
   }
 
   config = {
@@ -76,18 +76,12 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    loginData: null,
-    userInfo: null,
-    user: null,
     ajaxList: {},
-    cart: null
+    loginData: null,
+    userInfo: null
   };
 
-  onLaunch() {
-    console.log('onLaunch');
-    // 判断是否登录
-    wxService.userLogin(this);
-  }
+  onLaunch() {}
 
   onShow(options) {}
 

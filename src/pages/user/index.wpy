@@ -1,5 +1,7 @@
 <template>
+
   <view class="page-user">
+    <AvatarPanel :info.sync="userInfo" />
     <view class="weui-panel">
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
@@ -43,6 +45,7 @@
 <script>
 import parentPage from '../../core/parent/page.js';
 import { userInfo } from '../../core/config.js';
+import AvatarPanel from '../../theme/components/public/avatarPanel';
 
 export default class pageUser extends parentPage {
   config = {
@@ -99,7 +102,9 @@ export default class pageUser extends parentPage {
 
   methods = {};
 
-  components = {};
+  components = {
+    AvatarPanel
+  };
 }
 </script>
 

@@ -19,6 +19,7 @@ export default class http extends base {
       // 增强体验：加载中
       wx.showNavigationBarLoading();
       console.log('http start----');
+      this.$notice.load('请稍等');
       // op = Object.assign(op)
       // console.table(op);
     }
@@ -58,6 +59,7 @@ export default class http extends base {
       }
       wx.hideNavigationBarLoading();
       wx.stopPullDownRefresh();
+      this.$notice.clearLoad();
       console.log('http end----', res);
     }
   };
@@ -68,16 +70,15 @@ export default class http extends base {
       // 已登录
       return this.__ajax($app, op, complete);
     } else {
-      return timeOutAjax();
+      return timeOutAjax.call(this);
     }
 
     async function timeOutAjax() {
-      // 1000 毫秒后，再执行
+      // 1500 毫秒后，再执行
       const that = this;
-      const to = 1000;
+      const to = 1500;
       return new Promise((resolve, reject) => {
-        that.$notice.load('等待登录...');
-        // console.log(' 由于没有登录，进入等待' + to + ' ms 后，再操作...');
+        that.$notice.load('等待登录');
         setTimeout(async () => {
           try {
             const res = await this.__ajax($app, op, complete);

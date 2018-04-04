@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import parentComponent from '../../core/parent/component.js';
+import parentComponent from '@/core/parent/component.js';
 
 export default class datalist extends parentComponent {
   props = {
@@ -161,7 +161,7 @@ export default class datalist extends parentComponent {
 </script>
 
 <style type="less">
-@import '../styles/custom/fn.less';
+@import '../../styles/custom/fn.less';
 
 @dataListSpace: 18 * 2 * 0.8rpx;
 @dataListImageWidth: 25%;

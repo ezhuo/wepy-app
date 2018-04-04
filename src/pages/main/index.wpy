@@ -9,10 +9,10 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import Swiper from '../../theme/components/swiper';
-import SearchBar from '../../theme/components/searchbar';
-import Category from '../../theme/components/category';
-import DataList from '../../theme/components/dataList';
+import Swiper from '../../theme/components/public/swiper';
+import SearchBar from '../../theme/components/public/searchbar';
+import Category from '../../theme/components/public/category';
+import DataList from '../../theme/components/public/dataList';
 import { funImages } from '../../core/data/demo';
 
 export default class pageIndex extends parentPage {
@@ -88,49 +88,52 @@ export default class pageIndex extends parentPage {
   }
 
   // 更新图书列表
-  updateBookList(page) {
+  async updateBookList(page) {
     if (this.loading || this.noMoreList) return;
     this.loading = true;
-    // 请求列表
-    this.http
-      .post(
-        this.appConfig.service.list,
-        {
-          // 默认从0开始为第一页
-          page: page,
-          size: this.size
-        },
-        () => {
-          this.loading = false;
-        }
-      )
-      .then(({ data }) => {
-        data = data.data || [];
-        // 示例规则：最多20本
-        if (this.list.length >= 20) {
-          this.noMoreList = true;
-          return;
-        }
+    try {
+      await this.wxService.userLogin(this);
+      // 请求列表
+      this.http
+        .post(
+          this.appConfig.service.list,
+          {
+            // 默认从0开始为第一页
+            page: page,
+            size: this.size
+          },
+          () => {
+            this.loading = false;
+          }
+        )
+        .then(({ data }) => {
+          data = data.data || [];
+          // 示例规则：最多20本
+          if (this.list.length >= 20) {
+            this.noMoreList = true;
+            return;
+          }
 
-        // 请求到空列表后就认为没有更多了
-        if (this.helpers.isArray(data) && data.length === 0) {
-          this.noMoreList = true;
-          return;
-        }
-        if (!this.page || +this.page === 0) {
-          this.list = this.getBooks(data);
-        } else {
-          // 添加到列表中
-          this.list = [...this.list, ...this.getBooks(data)];
-        }
-        // 成功了就增加一页
-        this.page += 1;
-        this.$apply();
-      })
-      .catch(err => {
-        console.error(err);
-        this.$notice.info('加载失败！');
-      });
+          // 请求到空列表后就认为没有更多了
+          if (this.helpers.isArray(data) && data.length === 0) {
+            this.noMoreList = true;
+            return;
+          }
+          if (!this.page || +this.page === 0) {
+            this.list = this.getBooks(data);
+          } else {
+            // 添加到列表中
+            this.list = [...this.list, ...this.getBooks(data)];
+          }
+          // 成功了就增加一页
+          this.page += 1;
+          this.$apply();
+        })
+        .catch(err => {
+          console.error(err);
+          // this.$notice.info('加载失败！');
+        });
+    } catch (err) {}
   }
 
   // 处理图书列表

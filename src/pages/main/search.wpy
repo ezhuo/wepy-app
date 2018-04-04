@@ -18,7 +18,7 @@
 
 <script>
 import parentPage from '../../core/parent/page.js';
-import checkboxButton from '../../theme/components/checkboxButton';
+import checkboxButton from '../../theme/components/public/checkboxButton';
 
 export default class mainSearch extends parentPage {
   config = {

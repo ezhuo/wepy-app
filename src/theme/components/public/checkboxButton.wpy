@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import parentComponent from '../../core/parent/component.js';
+import parentComponent from '@/core/parent/component.js';
 
 export default class checkboxButton extends parentComponent {
   props = {
@@ -116,7 +116,7 @@ export default class checkboxButton extends parentComponent {
 </script>
 
 <style type="less">
-@import '../styles/custom/fn.less';
+@import '../../styles/custom/fn.less';
 
 .checkbox-button {
   & + & {
