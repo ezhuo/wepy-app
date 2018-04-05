@@ -20,8 +20,6 @@
 
 @import "base/reset.wxss";
 
-@import "../custom/variable/index.less";
-
 @import "widget/weui-cell/weui-cell.wxss";
 @import "widget/weui-cell/weui-access.wxss";
 @import "widget/weui-cell/weui-check.wxss";

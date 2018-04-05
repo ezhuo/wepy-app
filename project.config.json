@@ -1,5 +1,5 @@
 {
-  "description": "A WePY project",
+  "description": "ezhuo project",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -7,7 +7,8 @@
     "minified": false
   },
   "compileType": "miniprogram",
-  "appid": "touristappid",
+  "libVersion": "1.9.94",
+  "appid": "wx460e69760c38061f",
   "projectname": "wepy",
   "miniprogramRoot": "./dist"
 }

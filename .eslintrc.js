@@ -28,7 +28,7 @@ module.exports = {
     'space-before-function-paren': 0,
     semi: [0, 'always'],
     'no-useless-call': 0,
-    // 'indent': 0
+    'indent': 0
   },
   globals: {
     wx: true

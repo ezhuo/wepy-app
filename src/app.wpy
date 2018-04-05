@@ -2,7 +2,7 @@
 import wepy from 'wepy';
 import 'wepy-async-function';
 import Intercept from './core/service/intercept.js';
-import wxService from './core/service/wxService.js';
+// import wxService from './core/service/wxService.js';
 import * as helpers from './core/helpers.js';
 import { setStore } from 'wepy-redux';
 import configStore from './core/store';
@@ -111,5 +111,5 @@ export default class extends wepy.app {
 </script>
 
 <style lang="less">
-@import './theme/styles/index.wxss';
+@import './theme/styles/index.less';
 </style>

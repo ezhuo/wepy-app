@@ -1,3 +1,0 @@
-@import './weui/weui.wxss';
-@import './font/iconfont.wxss';
-@import './custom/index.less';

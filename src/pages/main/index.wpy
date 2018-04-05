@@ -1,9 +1,23 @@
 <template>
   <view class="page-index">
+    <zanToptips/>
     <SearchBar :placeholder="searchText"></SearchBar>
     <Swiper :list.sync="swipers" height="380"></Swiper>
+    <button class="zan-btn zan-btn--primary" @tap="showTopTips">确认付款</button>
+    <button class="zan-btn zan-btn--danger">确认付款</button>
+    <button class="zan-btn zan-btn--warn">确认付款</button>
     <Category :list.sync="categorys" col="4"></Category>
+    <view style="margin: 20px 0">
+      <zanTab1 :tab.sync="tab1" componentId="tab1"></zanTab1>
+    </view>
+
+    <view class="weui-loadmore weui-loadmore_line">
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">
+        <text>暂无数据</text>
+      </view>
+    </view>
     <DataList :list.sync="list" title="图书列表" :loading.sync="loading" :noMore.sync="noMoreList"></DataList>
+
   </view>
 </template>
 
@@ -13,6 +27,8 @@ import Swiper from '../../theme/components/public/swiper';
 import SearchBar from '../../theme/components/public/searchbar';
 import Category from '../../theme/components/public/category';
 import DataList from '../../theme/components/public/dataList';
+import zanToptips from '@/theme/components/zanui/zan-toptips';
+import zanTab from '@/theme/components/zanui/zan-tab';
 import { funImages } from '../../core/data/demo';
 
 export default class pageIndex extends parentPage {
@@ -26,7 +42,9 @@ export default class pageIndex extends parentPage {
     SearchBar,
     Category,
     DataList,
-    Swiper
+    Swiper,
+    zanToptips,
+    zanTab1: zanTab
   };
 
   data = {
@@ -46,7 +64,34 @@ export default class pageIndex extends parentPage {
     loading: false,
     list: [],
     page: 0,
-    size: 5
+    size: 5,
+    tab1: {
+      list: [
+        {
+          id: 'all',
+          title: '全部'
+        },
+        {
+          id: 'topay',
+          title: '待付款'
+        },
+        {
+          id: 'tosend',
+          title: '待发货'
+        },
+        {
+          id: 'send',
+          title: '待收货'
+        },
+        {
+          id: 'sign',
+          title: '已完成'
+        }
+      ],
+      selectedId: 'all',
+      scroll: true,
+      height: 45
+    }
   };
 
   onReady() {
@@ -98,7 +143,6 @@ export default class pageIndex extends parentPage {
         .post(
           this.appConfig.service.list,
           {
-            // 默认从0开始为第一页
             page: page,
             size: this.size
           },
@@ -153,7 +197,19 @@ export default class pageIndex extends parentPage {
     });
   }
 
-  methods = {};
+  methods = {
+    showTopTips() {
+      this.$invoke('zanToptips', 'show', 'toptips的内容 Wepy');
+    }
+  };
+
+  events = {
+    zanTabChange({ componentId, selectedId }, event) {
+      console.log(componentId, selectedId, event);
+      this[componentId].selectedId = selectedId;
+      this.$apply();
+    }
+  };
 }
 </script>
 

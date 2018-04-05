@@ -133,7 +133,7 @@ export default class mainDetail extends parentPage {
     const id = query && +query.id;
     const title = query && query.title;
     const author = query && query.author;
-    const status = query && +query.status;
+    // const status = query && +query.status;
 
     // ======== 此处示例代码，方便示例展示 ========
     setTimeout(() => {
@@ -229,7 +229,6 @@ export default class mainDetail extends parentPage {
           author: book.author
         },
         ({ code, message }) => {
-          debugger;
           const exist = this.helpers.ifObject(this.book).exist;
           // 匹配加车状态
           switch (+code) {
