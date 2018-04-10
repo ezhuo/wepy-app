@@ -1,15 +1,14 @@
 import wepy from 'wepy';
 import md5 from 'blueimp-md5';
-import wxStorage from './service/wxStorage.js';
 import AuthService from './service/authService.js';
-import * as wxNotice from './service/wxNotice.js';
+import * as wxHelpers from './service/wxHelpers.js';
 import * as helpers from './helpers.js';
 import * as appConfig from './config';
 
 export default class base {
-  static $storage = wxStorage;
-  static $notice = wxNotice.$notice;
-  static $alert = wxNotice.$alert;
+  static $notice = wxHelpers.$notice;
+  static $alert = wxHelpers.$alert;
+  static $storage = wxHelpers.wxStorage;
   static $auth = AuthService;
   static helpers = helpers;
   static appConfig = appConfig;

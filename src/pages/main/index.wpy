@@ -4,18 +4,7 @@
     <SearchBar :placeholder="searchText"></SearchBar>
     <Swiper :list.sync="swipers" height="380"></Swiper>
     <button class="zan-btn zan-btn--primary" @tap="showTopTips">确认付款</button>
-    <button class="zan-btn zan-btn--danger">确认付款</button>
-    <button class="zan-btn zan-btn--warn">确认付款</button>
     <Category :list.sync="categorys" col="4"></Category>
-    <view style="margin: 20px 0">
-      <zanTab1 :tab.sync="tab1" componentId="tab1"></zanTab1>
-    </view>
-
-    <view class="weui-loadmore weui-loadmore_line">
-      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">
-        <text>暂无数据</text>
-      </view>
-    </view>
     <DataList :list.sync="list" title="图书列表" :loading.sync="loading" :noMore.sync="noMoreList"></DataList>
 
   </view>

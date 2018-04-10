@@ -1,6 +1,8 @@
 import wepy from 'wepy';
-import http from '../http.js';
-import wxService from '../service/wxService.js';
+import http from './http.js';
+import wxService from './service/wxService.js';
+
+import caseCart from './data/cart';
 
 export default class IndexMixin extends wepy.mixin {
   data = {
@@ -14,6 +16,7 @@ export default class IndexMixin extends wepy.mixin {
   $auth = http.$auth;
   helpers = http.helpers;
   appConfig = http.appConfig;
+  caseCart = caseCart;
 
   http = {
     async http(method, api, body = {}, complete = null) {

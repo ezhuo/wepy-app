@@ -5,8 +5,8 @@ export const app = {
   year: 2018
 };
 
-export const host = 'http://localhost:8090/api/weixin/v1';
-// export const host = 'https://wxapp.thunf.cn';
+// export const host = 'http://localhost:8090/api/weixin/v1';
+export const host = 'https://app.ezhuo.cn/laravel-api/public/api/weixin/v1';
 
 export const api = {
   host: 'http://localhost:8090/api/weixin/v1',

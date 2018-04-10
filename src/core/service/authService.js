@@ -1,5 +1,7 @@
 import wepy from 'wepy';
-import wxStorage from './wxStorage';
+import {
+  wxStorage
+} from './wxHelpers';
 
 export default class AuthService {
   static set loginData(v) {
