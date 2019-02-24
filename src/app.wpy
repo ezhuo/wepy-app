@@ -69,8 +69,8 @@ export default class extends wepy.app {
       ]
     },
     networkTimeout: {
-      request: 5000,
-      downloadFile: 10000
+      request: 30000,
+      downloadFile: 100000
     },
     debug: false
   };

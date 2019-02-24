@@ -1,7 +1,7 @@
 <template>
 
   <view class="page-user">
-    <AvatarPanel :info.sync="userInfo" />
+    <!-- <AvatarPanel :info.sync="userInfo" /> -->
     <view class="weui-panel">
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">

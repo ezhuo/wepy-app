@@ -9,14 +9,12 @@ export default class IndexMixin extends wepy.mixin {
     httpLoading: false
   }
   wxService = wxService;
-
   $storage = http.$storage;
   $notice = http.$notice;
   $alert = http.$alert;
   $auth = http.$auth;
   helpers = http.helpers;
   appConfig = http.appConfig;
-  caseCart = caseCart;
 
   http = {
     async http(method, api, body = {}, complete = null) {
@@ -35,4 +33,6 @@ export default class IndexMixin extends wepy.mixin {
       return http.del(this, api, body, complete);
     }
   }
+
+  caseCart = caseCart;
 }

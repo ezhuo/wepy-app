@@ -1,11 +1,8 @@
 const path = require('path');
 var prod = process.env.NODE_ENV === 'production';
-const LessPluginAutoPrefix = require('less-plugin-autoprefix');
 
 module.exports = {
   wpyExt: '.wpy',
-  eslint: true,
-  cliLogs: !prod,
   build: {
     web: {
       htmlTemplate: path.join('src', 'index.template.html'),
@@ -13,46 +10,32 @@ module.exports = {
       jsOutput: path.join('web', 'index.js')
     }
   },
-  resolve: {
-    alias: {
-      '@': path.join(__dirname, 'src')
-    },
-    aliasFields: ['wepy'],
-    modules: ['node_modules']
-  },
+  eslint: true,
   compilers: {
     less: {
-      compress: prod,
-      plugins: [
-        new LessPluginAutoPrefix({
-          browsers: ['Android >= 2.3', 'Chrome > 20', 'iOS >= 6']
-        })
-      ]
+      compress: true
     },
     /*sass: {
       outputStyle: 'compressed'
     },*/
     babel: {
       sourceMap: true,
-      presets: ['env'],
+      presets: ['es2015', 'stage-1'],
       plugins: [
-        'transform-class-properties',
         'transform-decorators-legacy',
-        'transform-object-rest-spread',
-        'transform-export-extensions'
+        'transform-export-extensions',
+        'syntax-export-extensions'
       ]
     }
   },
-  plugins: {},
-  appConfig: {
-    noPromiseAPI: ['createSelectorQuery']
-  }
+  plugins: {}
 };
 
 if (prod) {
   delete module.exports.compilers.babel.sourcesMap;
   // 压缩sass
   // module.exports.compilers['sass'] = {outputStyle: 'compressed'}
+
   // 压缩less
   module.exports.compilers['less'] = { compress: true };
 

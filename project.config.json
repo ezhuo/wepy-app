@@ -7,7 +7,7 @@
     "minified": false
   },
   "compileType": "miniprogram",
-  "libVersion": "1.9.94",
+	"libVersion": "2.6.1",
   "appid": "wx460e69760c38061f",
   "projectname": "wepy",
   "miniprogramRoot": "./dist"
